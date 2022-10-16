@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<style>
+table,th,td {
+  border-collapse: collapse;
+  margin-left: 35%;
+  margin-right: 35%;
+  width: 30%;
+  background-color: hsla(295, 75%, 97%, 0.992);
+  color: #caaee9fd;
+  
+}
+th,td {
+  border-radius: 2px;
+  padding: 15px;
+  border: 1px solid #c9aee9fd;
+
+}
+
+</style>
+<body>
+
+<h1> Contacts </h1>
+
+<button type="button" onclick="loadAllDoc()">Load All Contacts</button>
+<h3>OR</h3>
+<div>
+
+  <select id="searchby" >
+    <option value="0"></option>
+    <option value="1">By Profession</option>
+    <option value="2">By Mobile</option>  
+  </select>
+  <input type="text" placeholder="Search" id="bar">
+  <button type="button" onclick="searchLoad()">Search</button>
+  
+<br><br>
+<div id="search_result"> </div>
+<table id="demo"></table>
+<script>
+
+
+function loadAllDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      myFunction(this);
+    }
+  };
+  xhttp.open("GET", "contacts_list.xml", true);
+  xhttp.send();
+}
+
+function myFunction(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr> <th> Contact ID</th> <th>Name</th> <th>Profession</th> <th>Mobile</th> </tr>";
+  var x = xmlDoc.getElementsByTagName("CI");
+  for (i = 0; i <x.length; i++) { 
+    table += "<tr><td>" +
+      x[i].getElementsByTagName("ID")[0].childNodes[0].nodeValue +  
+      "</td><td>" +
+      x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue +
+      "</td><td>" +
+      x[i].getElementsByTagName("PROFESSION")[0].childNodes[0].nodeValue +
+      "</td><td>"+
+      x[i].getElementsByTagName("MOBILE")[0].childNodes[0].nodeValue +
+      "</td></tr>";
+  }
+  document.getElementById("demo").innerHTML = table;
+}
+
+function searchLoad(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      search(this);
+    }
+  };
+  xhttp.open("GET", "contacts_list.xml", true);
+  xhttp.send();
+}
+
+function search(xml){
+  var i;
+  var xmlDoc = xml.responseXML;
+  var cont = document.getElementById("bar");
+  var table="<tr><th>Contact ID</th><th>Name</th><th>Profession</th><th>Mobile</th></tr>";
+  var x = xmlDoc.getElementsByTagName("CI");
+  var by= document.getElementById("searchby").value;
+
+     if (by == 1){
+      for (i = 0; i <x.length; i++) { 
+        if (x[i].getElementsByTagName("PROFESSION")[0].childNodes[0].nodeValue.toLowerCase().includes(cont.value.toLowerCase())){
+          table += "<tr><td>" +
+        x[i].getElementsByTagName("ID")[0].childNodes[0].nodeValue +  
+        "</td><td>" +
+        x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue +
+        "</td><td>" +
+        x[i].getElementsByTagName("PROFESSION")[0].childNodes[0].nodeValue +
+        "</td><td>"+
+        x[i].getElementsByTagName("MOBILE")[0].childNodes[0].nodeValue +
+        "</td></tr>";
+        }
+      }
+    }
+    else if (by == 2){
+      for (i = 0; i <x.length; i++) { 
+        if (x[i].getElementsByTagName("MOBILE")[0].childNodes[0].nodeValue.includes(cont.value)){
+          table += "<tr><td>" +
+        x[i].getElementsByTagName("ID")[0].childNodes[0].nodeValue +  
+        "</td><td>" +
+        x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue +
+        "</td><td>" +
+        x[i].getElementsByTagName("PROFESSION")[0].childNodes[0].nodeValue +
+        "</td><td>"+
+        x[i].getElementsByTagName("MOBILE")[0].childNodes[0].nodeValue +
+        "</td></tr>";
+        }
+      }
+    }
+  
+  document.getElementById("demo").innerHTML = table;
+
+}
+</script>
+
+</body>
+</html>
