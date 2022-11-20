@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+   <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+ 
+  </head>
+  <body>
+      {% load crispy_forms_tags %}
+
+      <nav class="navbar navbar-light bg-light">
+        <a class="button" href="{% url 'homepage' %}">
+          Home
+        </a>
+        <a class="button" href="{% url 'sname' %}">
+          Search 
+        </a>
+        <a class="button" href="{% url 'sprofession' %}">
+          Search By profession
+        </a>
+        <a class="button" href="{% url 'compare' %}">
+          Compare
+        </a>
+      </nav>
+      <br><br>
+
+      {% block content %}
+      <center>
+        <form class="d-flex" method=POST action="{% url 'search_profession' %}">
+          {% csrf_token %}
+          <input class="form-control me-2" type="search" placeholder="Search by Profession" aria-label="Search" name="name">
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+        {% if searched %}
+          <h1> You searched for Profession:{{contact.profession}}</h1>
+          <br/>
+          {% for contact in contacts %}
+            Name : {{ contact }}  <br/>
+            Profession : {{contact.profession}} <br/>
+            Mobile Number: {{contact.mobile_number}}<br/>
+            Tel Number: {{contact.tel_number}}<br/>
+            address: {{contact.address}}<br/>
+            <br/>
+          {% endfor %}
+
+        {% else %}
+        <h1> You forgot to Search.. ! </h1>
+        {% endif %}
+      </center>
+      {% endblock %}
+
+      
+
+  </body>
+</html>

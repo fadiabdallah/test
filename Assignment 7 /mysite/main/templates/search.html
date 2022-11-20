@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+   <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+ 
+  </head>
+  <body>
+      {% load crispy_forms_tags %}
+      <nav class="navbar navbar-light bg-light">
+        <a class="button" href="{% url 'homepage' %}">
+          Home
+        </a>
+        <a class="button" href="{% url 'sname' %}">
+          Search 
+        </a>
+        <a class="button" href="{% url 'sprofession' %}">
+          Search By profession
+        </a>
+        <a class="button" href="{% url 'compare' %}">
+          Compare
+        </a>
+      </nav>
+      <br><br>
+
+
+        <form class="d-flex" method=POST action="{% url 'sname' %}">
+          {% csrf_token %}
+          <input class="form-control me-2" type="search"  aria-label="Search" name="name">
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+          <br/>
+          {% for contact in contacts %}
+             {{ contact }}  <br/>
+             {{contact.profession}} <br/>
+             {{contact.mobile_number}}<br/>
+             {{contact.tel_number}}<br/>
+          {{contact.address}}<br/>
+            <br/>
+          {% endfor %}
+
+
+
+
+      
+
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{% load static %}
+{% block content %}
+
+<br>
+<div class="row">
+	<div class="col-md-6">
+		<div class="card" card-body">
+
+			<p> {{contact}}> </p>
+
+			<form action="{% url 'delete' contact.id %}" method="POST">
+				{% csrf_token %}
+				<a class="button" href="{% url 'homepage' %}"> Cancel </a>
+
+				<input class="button" type="submit" name="Confirm">
+
+</form>
+
+</div>
+</div>
+</div>
+
+{% endblock %}
