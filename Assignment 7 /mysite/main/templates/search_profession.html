@@ -31,12 +31,12 @@
 
       {% block content %}
       <center>
-        <form class="d-flex" method=POST action="{% url 'search_profession' %}">
+        <form class="d-flex" method=POST action="{% url 'sprofession' %}">
           {% csrf_token %}
           <input class="form-control me-2" type="search" placeholder="Search by Profession" aria-label="Search" name="name">
           <button class="btn btn-outline-secondary" type="submit">Search</button>
         </form>
-        {% if searched %}
+
           <h1> You searched for Profession:{{contact.profession}}</h1>
           <br/>
           {% for contact in contacts %}
@@ -48,9 +48,8 @@
             <br/>
           {% endfor %}
 
-        {% else %}
-        <h1> You forgot to Search.. ! </h1>
-        {% endif %}
+
+
       </center>
       {% endblock %}
 

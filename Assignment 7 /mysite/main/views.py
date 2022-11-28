@@ -13,6 +13,7 @@ def homepage(request):
     if form.is_valid():
       form.save()
   contacts = Contact.objects.all().order_by('name', 'profession').values()
+  # contacts=contacts.sort(key=lambda x: x.name.lower())
   form = ContactForm()
   return render(request, "home.html", {"form": form, "contacts":contacts})
 
@@ -37,6 +38,7 @@ def delete(request,a):
 	if request.method=='POST':
 		contact.delete()
 		return(redirect('/'))
+
 	context ={'contact':contact}
 	return render(request, "delete.html", context)
 
@@ -50,7 +52,7 @@ def sname(request):
 
 def sprofession(request):
   if request.method == "POST":
-    searched = request.POST.get('searched')
+    searched = request.POST.get('name')
     contacts= Contact.objects.filter(profession__contains=searched)
     return render(request, "search_profession.html", { 'contacts':contacts})
   else:
